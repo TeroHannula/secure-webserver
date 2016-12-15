@@ -1,0 +1,35 @@
+class secure-webserver {
+
+    exec { 'add-apt':
+	    command => '/usr/bin/add-apt-repository ppa:ondrej/php',
+            creates => '/etc/apt/sources.list.d/ondrej-ubuntu-php-xenial.list',
+    }
+
+    exec { 'apt-update':
+	require => 'add-apt',
+	command => '/usr/bin/apt-get update',
+    }
+
+#    file { 'dvwa':
+#       command => '/usr/bin/wget -q https://github.com/ethicalhack3r/DVWA/archive/v1.9.zip',
+#	creates => '/var/www/html/dvwa-V1.9.zip',
+#   }
+
+    package { 'php':
+	require => 'apt-update',
+	ensure => '5.5',
+    }
+    
+
+#    package { 'apache2':
+#            ensure => "2.4",        # 2.4 is preferred for mod_security
+#    }
+
+
+#    package { 'mod_security':
+#            require => 'apache2',
+#            ensure => '2.9',        # >= 2.8 needed for OWASP CRS ruleset
+
+
+
+}
